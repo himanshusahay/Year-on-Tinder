@@ -1,0 +1,8 @@
+python-dateutil
+cached_property
+pynder
+robobrowser
+nltk
+google-cloud-vision
+# Command to get google vision to work - run every time before running server.
+export GOOGLE_APPLICATION_CREDENTIALS=<location of tinderpal in your filesystem>/app/TinderPal.json

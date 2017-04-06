@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>TinderPal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/style.css' %}" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        {% for i in padding %}
+          <div class="col-md-1">
+
+          </div>
+        {% endfor %}
+        {% for url in user.photos %}
+          <div class="col-md-2">
+            <div class="profile-pic-container">
+              <img src="{{ url }}" alt="Profile Pic {{ forloopcounter0 }}" class="profile-pic" />
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="profile-name">
+            {{ user.name }}, {{ user.age }}
+          </p>
+          <p class="profile-bio">
+            {% if user.bio %}
+              {{ user.bio }}
+            {% else %}
+              This person has no bio.
+            {% endif%}
+          </p>
+        </div>
+        <div class="col-md-3">
+          <form method="post" action="/app/{{ id }}/category-select/">
+            {% csrf_token %}
+            <h4>Choose a category:</h4>
+            <input  value="funny" type="radio" name="category" id="funny-cat" /><label for="funny-cat">Funny</label><br />
+            <input value="lifestyle" type="radio" name="category" id="lifestyle-cat" /><label for="lifestyle-cat">Lifestyle</label><br />
+
+            <button type="submit" name="submit" class="btn btn-default">Get Opener</button>
+          </form>
+          {% if line_option %} <p>{{ line_option }}</p> {% endif %} 
+        </div>
+        <div class="col-md-6">
+          <ul class="list-group message-container">
+            {% for message in messages %}
+              <li class="list-group-item message {% if message.sender.name == user.name %} list-group-item-info text-right {% else %}  {% endif %}">
+                {{ message.body }}
+              </li>
+            {% empty %}
+              <li class="list-group-item">
+                It appears you don't have any messages with {{ user.name }} yet.
+              </li>
+            {% endfor %}
+          </ul>
+          <form method="post" action="/app/{{ id }}/send/">
+            {% csrf_token %}
+            <div class="input-group input-group-lg message-input-container">
+              <input type="text" name="message" class="form-control" placeholder="Messsage...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">Send</button>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

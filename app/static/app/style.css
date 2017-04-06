@@ -1,0 +1,63 @@
+.profile-preview-container {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, .5);
+  border-radius: 7px;
+}
+
+.profile-preview-container img {
+  width: 100%;
+  display: block;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+.profile-preview-container p {
+  font-size: 1.4em;
+  padding-top: 10px;
+}
+
+.profile-preview-container-link,
+.profile-preview-container-link:active,
+.profile-preview-container-link:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.profile-preview-container-link:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.profile-pic-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 7px;
+}
+
+.profile-pic {
+  width: 100%;
+  display: block;
+  border-radius: 7px;
+}
+
+.profile-name {
+  font-size: 1.8em;
+  text-align: center;
+}
+
+.profile-bio {
+  font-size: 1.5em;
+}
+
+.message-container {
+  font-size: 1.5em;
+}
+
+.message-input-container {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
