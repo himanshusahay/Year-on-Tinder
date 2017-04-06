@@ -1,2 +1,2 @@
-# tinderpal
-Recommend messages to send to your matches
+# Year-on-Tinder
+Visualizing your year on Tinder
