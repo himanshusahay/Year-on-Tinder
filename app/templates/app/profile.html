@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>TinderPal</title>
+    <title>Year on Tinder</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,6 +49,18 @@
         </div>
         <div class="col-md-6">
           <ul class="list-group message-container">
+            {% for tag in bio_tags %}
+            <li class="list-group-item message">
+                {{ tag }}
+            </li>
+            {% empty %}
+            {% endfor %}
+            {% for itag in image_tags %}
+            <li class="list-group-item message">
+                {{ itag }}
+            </li>
+            {% empty %}
+            {% endfor %}
             {% for message in messages %}
               <li class="list-group-item message {% if message.sender.name == user.name %} list-group-item-info text-right {% else %}  {% endif %}">
                 {{ message.body }}
@@ -59,7 +71,7 @@
               </li>
             {% endfor %}
           </ul>
-          <form method="post" action="/app/{{ id }}/send/">
+<!--           <form method="post" action="/app/{{ id }}/send/">
             {% csrf_token %}
             <div class="input-group input-group-lg message-input-container">
               <input type="text" name="message" class="form-control" placeholder="Messsage...">
@@ -67,7 +79,7 @@
                 <button class="btn btn-default" type="submit">Send</button>
               </span>
             </div>
-          </form>
+          </form> -->
         </div>
       </div>
     </div>

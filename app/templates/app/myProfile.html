@@ -10,30 +10,33 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <a href="app/myProfile">My Profile</a>
-      </div>
-      <div class="row">
-        {% for user in matches %}
-          <div class="text-center col-md-2">
-            <a href="{{ forloop.counter0 }}/profile" class="profile-preview-container-link">
-              <div class="profile-preview-container">
-                <div class="row">
-                  <img src="{{ user.user.photos.0 }}" alt="Profile Pic" class="" />
-                </div>
-                <div class="row">
-                  <p>
-                    {{ user.user.name }}, {{ user.user.age }}
-                  </p>
-                </div>
-              </div>
-            </a>
+        {% for i in padding %}
+          <div class="col-md-1">
+
+          </div>
+        {% endfor %}
+        {% for url in user.photos %}
+          <div class="col-md-2">
+            <div class="profile-pic-container">
+              <img src="{{ url }}" alt="Profile Pic {{ forloopcounter0 }}" class="profile-pic" />
+            </div>
           </div>
         {% endfor %}
       </div>
       <div class="row">
-        {{ meta }}
-      </div>
+        <div class="col-md-3">
+          <p class="profile-name">
+            {{ user.name }}, {{ user.age }}
+          </p>
+          <p class="profile-bio">
+            {% if user.bio %}
+              {{ user.bio }}
+            {% else %}
+              This person has no bio.
+            {% endif%}
+          </p>
+          </div>
+        </div>
     </div>
-
   </body>
 </html>
