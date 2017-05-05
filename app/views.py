@@ -11,6 +11,7 @@ import re
 import robobrowser
 import operator
 import random
+import phonenumbers
 from .image import generate_tags
 from .recommender import Recommender
 import functools
@@ -81,15 +82,89 @@ def landing(request):
 	# your metadata
 	meta = tinder.get_meta()
 
-	# ping data (lat, long)
-	ping = tinder.get_ping(42.270668, -71.806974)
+	# # ping data (lat, long)
+	# ping = tinder.get_ping(42.270668, -71.806974)
 
 	data = {
 		"updates": updates,
 		"self":	self,
 		"meta": meta,
-		"ping": ping,
+		# "ping": ping,
 	}
+
+	self_id = self["_id"]
+
+	for match in updates["matches"]:
+		phone_number = False
+		match_id = match["_id"]
+		if len(match["messages"]) > 1:
+			for message in match["messages"]:
+				matcher = phonenumbers.PhoneNumberMatcher(message["message"], "US")
+				if matcher.has_next():
+					phone_number = True
+					break
+		
+
+	num_matches = len(updates["matches"])
+	num_messaged = 0 # 1 message to or from
+	num_interactions = 0 # 2 messages on either side
+	num_messaged_first = 0
+	num_received_message_from_first = 0
+	num_interactions_GIF = 0
+	num_interactions_phone_number = 0
+
+	for match in updates["matches"]:
+		match_id = match["_id"]
+
+		if len(match["messages"]) > 0:
+			num_messaged += 1
+			interaction = False
+			gif = False
+			phone_number = False
+
+			if match["messages"][0]["from"] != self_id:
+				num_received_message_from_first += 1
+			
+			else:
+				num_messaged_first += 1
+
+			from_list = {}
+			if len(match["messages"]) > 1:
+				from_list.clear()
+				for each in match["messages"]:
+					from_list[each["from"]] = 1
+					for message in match["messages"]:
+						if ".giphy.com" in message["message"]:
+							gif = True
+						matcher = phonenumbers.PhoneNumberMatcher(message["message"], "US")
+						if matcher.has_next():
+							phone_number = True
+							break
+		
+			if len(from_list) > 1:
+				num_interactions += 1
+				match["interaction"] = True
+				if gif:
+					num_interactions_GIF += 1
+				if phone_number:
+					num_interactions_phone_number += 1
+					match["phone_number"] = True
+				else:
+					match["phone_number"] = False
+			else:
+				match["interaction"] = False
+
+	info = []
+	info.append({ "stat": "Matches", "value" : num_matches})
+	info.append({ "stat": "Messaged", "value" : num_messaged})
+	info.append({ "stat": "Interactions", "value" : num_interactions})
+	info.append({ "stat": "Interactions (GIF)", "value" : num_interactions_GIF})
+	info.append({ "stat": "You messaged first", "value" : num_messaged_first})
+	info.append({ "stat": "Match messaged first", "value" : num_received_message_from_first})
+	info.append({ "stat": "Interactions (phone number)", "value" : num_interactions_phone_number})
+
+	with open('stats.json', 'w') as fp:
+		json.dump(info, fp)
 
 	with open('data.json', 'w') as fp:
 		json.dump(data, fp)
