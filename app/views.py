@@ -157,10 +157,10 @@ def landing(request):
 	info = []
 	info.append({ "stat": "Matches", "value" : num_matches})
 	info.append({ "stat": "Messaged", "value" : num_messaged})
-	info.append({ "stat": "Interactions", "value" : num_interactions})
-	info.append({ "stat": "Interactions (GIF)", "value" : num_interactions_GIF})
 	info.append({ "stat": "You messaged first", "value" : num_messaged_first})
 	info.append({ "stat": "Match messaged first", "value" : num_received_message_from_first})
+	info.append({ "stat": "Interactions", "value" : num_interactions})
+	info.append({ "stat": "Interactions (GIF)", "value" : num_interactions_GIF})
 	info.append({ "stat": "Interactions (phone number)", "value" : num_interactions_phone_number})
 
 	with open('stats.json', 'w') as fp:
